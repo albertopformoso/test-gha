@@ -1,0 +1,30 @@
+name: Workflow Test Matrix
+
+on: [push]
+
+concurrency:
+  group: test
+  cancel-in-progress: true
+
+jobs:
+  job:
+    name: Job executed on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-latest
+            command: exit 1 # This will cause the job to fail
+          - os: macos-latest
+            command: echo "Running on macos-latest"
+          - os: windows-latest
+            command: echo "Running on windows-latest"
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Execute command
+        run: ${{ matrix.command }}
