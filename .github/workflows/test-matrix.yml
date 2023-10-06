@@ -32,7 +32,9 @@ jobs:
           until [ $retry -le 0 ]
           do
             echo "Try #$retry"
-            ${{ matrix.command }}
+            ${{ matrix.command }} && break
+            retry=$((retry-1))
+            sleep 5
           done
           if [ $retry -le 0 ]; then
             exit 1
