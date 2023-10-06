@@ -37,5 +37,6 @@ jobs:
             sleep 5
           done
           if [ $retry -le 0 ]; then
+            echo "Tests failed after 3 retries."
             exit 1
           fi
