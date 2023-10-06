@@ -27,4 +27,13 @@ jobs:
         uses: actions/checkout@v4
       
       - name: Execute command
-        run: ${{ matrix.command }}
+        run: |
+          retry=3
+          until [ $retry -le 0 ]
+          do
+            echo "Try #$retry"
+            ${{ matrix.command }}
+          done
+          if [ $retry -le 0 ]; then
+            exit 1
+          fi
